@@ -8,15 +8,22 @@ class Search extends React.Component {
     searchTerm: "",
     result: [],
     savedCountries: [],
+    loading: false,
   };
 
+  // async function handleSearch()
+
+  // async handleSearch()
+
   handleSearch = async () => {
+    this.setState({ loading: true });
+
     try {
       const response = await axios.get(
         `https://restcountries.eu/rest/v2/name/${this.state.searchTerm}`
       );
 
-      this.setState({ result: [...response.data] });
+      this.setState({ result: [...response.data], loading: false });
       //   console.log(response);
     } catch (err) {
       console.error(err);
@@ -63,6 +70,11 @@ class Search extends React.Component {
         <div className="d-flex justify-content-between m-3">
           <div className="border p-3">
             <h2>Search Results</h2>
+            {this.state.loading ? (
+              <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : null}
             {this.state.result.map((country) => {
               return (
                 <div className="container">
